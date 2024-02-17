@@ -16,9 +16,10 @@ exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 const users_1 = require("./users/users");
 class App {
-    constructor() {
+    constructor(logger) {
         this.app = (0, express_1.default)();
         this.port = 8001;
+        this.logger = logger;
     }
     useRoutes() {
         this.app.use('/users', users_1.userRouter);
@@ -27,7 +28,7 @@ class App {
         return __awaiter(this, void 0, void 0, function* () {
             this.useRoutes();
             this.server = this.app.listen(this.port);
-            console.log(`serv run on http://localhost:${this.port}`);
+            this.logger.log(`serv run on http://localhost:${this.port}`);
         });
     }
 }
