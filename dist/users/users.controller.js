@@ -12,7 +12,7 @@ class UserController extends base_controller_1.BaseController {
         ]);
     }
     login(req, res, next) {
-        next(new http_error_class_1.HTTPError(401, 'User is not auth'));
+        next(new http_error_class_1.HTTPError(401, 'User is not auth', 'login'));
     }
     register(req, res, next) {
         this.ok(res, 'register');
