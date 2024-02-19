@@ -15,7 +15,7 @@ export class PrismaService {
 	async connect(): Promise<void> {
 		try {
 			await this.clinet.$connect();
-			this.logger.log('[PrismaService] усмешно подключились к бд');
+			this.logger.log('[PrismaService] успешно подключились к бд');
 		} catch (err) {
 			if (err instanceof Error) {
 				this.logger.error('[PrismaService] ошибка подключение к бд' + err.message);

@@ -2,7 +2,7 @@ import { UserService } from './users.service';
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
 import { HTTPError } from '../errors/http-error.class';
-import { inject, injectable } from 'inversify';
+import { id, inject, injectable } from 'inversify';
 import { ILogger } from '../logger/logger.interface';
 import { TYPES } from '../types';
 import 'reflect-metadata';
@@ -42,6 +42,6 @@ export class UserController extends BaseController implements IUserController {
 		if (!result) {
 			return next(new HTTPError(422, 'Такой юзлер уже существует'));
 		}
-		this.ok(res, { email: result.email });
+		this.ok(res, { email: result.email, id: result.id });
 	}
 }
