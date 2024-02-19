@@ -1,3 +1,4 @@
+import { PrismaService } from './db/prisma.service';
 import { Container, ContainerModule, interfaces } from 'inversify';
 import { App } from './app';
 import { ExeptionFilter } from './errors/exeption.filter';
@@ -18,6 +19,7 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
 	bind<IUserController>(TYPES.UserController).to(UserController).inSingletonScope();
 	bind<IUserService>(TYPES.UserService).to(UserService).inSingletonScope();
 	bind<IConfigService>(TYPES.ConfigService).to(ConfigService).inSingletonScope();
+	bind<PrismaService>(TYPES.PrismaService).to(PrismaService).inSingletonScope();
 	bind<App>(TYPES.Application).to(App);
 });
 

@@ -1,3 +1,4 @@
+import { PrismaService } from './db/prisma.service';
 import { UserController } from './users/users.controller';
 import express, { Express } from 'express';
 
@@ -23,6 +24,7 @@ export class App {
 		@inject(TYPES.UserController) private userController: UserController,
 		@inject(TYPES.ExeptionFilter) private exeptionFilter: IExeptionFilter,
 		@inject(TYPES.ConfigService) private configService: IConfigService,
+		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
 		this.port = 8001;
@@ -44,6 +46,7 @@ export class App {
 		this.useMiddleware();
 		this.useRoutes();
 		this.useExeptionFilters();
+		await this.prismaService.connect();
 		this.server = this.app.listen(this.port);
 		this.logger.log(`serv run on http://localhost:${this.port}`);
 	}
