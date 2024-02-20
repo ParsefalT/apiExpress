@@ -6,25 +6,25 @@ import 'reflect-metadata';
 
 @injectable()
 export class PrismaService {
-	clinet: PrismaClient;
+	client: PrismaClient;
 
 	constructor(@inject(TYPES.ILogger) private logger: ILogger) {
-		this.clinet = new PrismaClient();
+		this.client = new PrismaClient();
 	}
 
 	async connect(): Promise<void> {
-		// try {
-		// 	await this.clinet.$connect();
-		// 	this.logger.log('[PrismaService] успешно подключились к бд');
-		// } catch (err) {
-		// 	if (err instanceof Error) {
-		// 		this.logger.error('[PrismaService] ошибка подключение к бд' + err.message);
-		// 	}
-		// }
-		await this.clinet.$connect();
+		try {
+			await this.client.$connect();
+			this.logger.log('[PrismaService] успешно подключились к бд');
+		} catch (err) {
+			if (err instanceof Error) {
+				this.logger.error('[PrismaService] ошибка подключение к бд' + err.message);
+			}
+		}
+		await this.client.$connect();
 	}
 
 	async disconnect(): Promise<void> {
-		await this.clinet.$disconnect();
+		await this.client.$disconnect();
 	}
 }

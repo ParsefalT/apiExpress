@@ -10,7 +10,7 @@ export class UsersRepository implements IUsersRepository {
 	constructor(@inject(TYPES.PrismaService) private prismaService: PrismaService) {}
 
 	async createUserRepository({ email, password, name }: UserEntity): Promise<UserModel> {
-		return this.prismaService.clinet.userModel.create({
+		return this.prismaService.client.userModel.create({
 			data: {
 				email,
 				password,
@@ -20,7 +20,7 @@ export class UsersRepository implements IUsersRepository {
 	}
 
 	async findUserRepository(email: string): Promise<UserModel | null> {
-		return this.prismaService.clinet.userModel.findFirst({
+		return this.prismaService.client.userModel.findFirst({
 			where: {
 				email,
 			},

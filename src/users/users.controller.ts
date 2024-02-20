@@ -1,4 +1,3 @@
-import { UserService } from './users.service';
 import { NextFunction, Request, Response } from 'express';
 import { BaseController } from '../common/base.controller';
 import { HTTPError } from '../errors/http-error.class';
@@ -34,6 +33,12 @@ export class UserController extends BaseController implements IUserController {
 				function: this.login,
 				middlewares: [new ValidateMiddleware(UserLoginDto)],
 			},
+			{
+				path: '/info',
+				method: 'get',
+				function: this.info,
+				middlewares: [],
+			},
 		]);
 	}
 
@@ -62,11 +67,15 @@ export class UserController extends BaseController implements IUserController {
 		this.ok(res, { email: result.email, id: result.id });
 	}
 
+	async info(req: Request, res: Response, next: NextFunction): Promise<void> {
+		this.ok(res, { email: req.user.email });
+	}
+
 	private signJWT(email: string, secret: string): Promise<string> {
 		return new Promise((resolve, reject) => {
 			sign(
 				{
-					email,
+					email: email,
 					iat: Math.floor(Date.now() / 1000),
 				},
 				secret,
@@ -76,9 +85,8 @@ export class UserController extends BaseController implements IUserController {
 				(error, token) => {
 					if (error) {
 						reject(error);
-					} else {
-						resolve(token as string);
 					}
+					resolve(token as string);
 				},
 			);
 		});

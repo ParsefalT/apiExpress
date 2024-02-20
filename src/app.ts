@@ -12,11 +12,12 @@ import { json } from 'body-parser';
 import { IConfigService } from './config/config.service.interface';
 import { IUserController } from './users/users.controller.interface';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
+import { AuthMiddleware } from './common/auth.middleware';
 
 @injectable()
 export class App {
 	app: Express;
-	server: Server | undefined;
+	server: Server;
 	port: number;
 
 	constructor(
@@ -27,11 +28,13 @@ export class App {
 		@inject(TYPES.PrismaService) private prismaService: PrismaService,
 	) {
 		this.app = express();
-		this.port = 8001;
+		this.port = 8002;
 	}
 
 	useMiddleware(): void {
 		this.app.use(json());
+		const authMiddleware = new AuthMiddleware(this.configService.get('SECRET'));
+		this.app.use(authMiddleware.execute.bind(authMiddleware));
 	}
 
 	useRoutes() {
